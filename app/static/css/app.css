@@ -1,3 +1,22 @@
 body {
     padding-top: 50px;
 }
+.card-layout{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    gap: 2%;
+}
+@media only screen and (max-width: 500px) {
+    .card-layout{
+        display: grid;
+        grid-template-columns:50% 50%;
+        gap: 2%;
+    }
+    .smallup{
+        width: 100% !important;
+    }
+}
+nav{
+    background-color: #14b7a6;
+
+}

@@ -5,19 +5,58 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-
-
+from app import app,db
+from flask import render_template, request, redirect, url_for,flash, session, abort, send_from_directory
+from .forms import propertyform
+from werkzeug.utils import secure_filename
+import os
+from app.models import Property_info
 ###
 # Routing for your application.
 ###
+
+@app.route('/property', methods=['POST','GET'])
+def property():
+    form = propertyform()
+    if (request.method == 'POST'):
+        if (form.validate_on_submit()):
+            photo = form.photo.data
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            title=form.title.data
+            description=form.description.data
+            bedroom=form.bedroom.data
+            bathroom=form.bathroom.data
+            location=form.location.data
+            price=form.price.data
+            proptype=form.proptype.data
+            db.session.add(Property_info(title,bedroom,bathroom,location,price,description,proptype,filename))
+            db.session.commit()
+            flash('Property Added Successfully!', 'success')
+            return redirect(url_for('properties'))
+        else:
+            flash_errors(form)
+    return render_template('property.html',form=form)
+
+@app.route('/properties')
+def properties():
+    property = Property_info.query.all()
+    return render_template('properties.html',property=property)
+
+@app.route('/property/<propertyid>')
+def individual_property(propertyid):
+    propid = Property_info.query.filter_by(propertyid=propertyid).first()
+    return render_template('individual_property.html', propid=propid)
 
 @app.route('/')
 def home():
     """Render website's home page."""
     return render_template('home.html')
 
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    rootdir = os.getcwd()
+    return  send_from_directory(os.path.join(rootdir,app.config['UPLOAD_FOLDER']),filename)
 
 @app.route('/about/')
 def about():

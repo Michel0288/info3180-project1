@@ -1,8 +1,9 @@
 /* Add your Application JavaScript */
-console.log('this is some JavaScript code');
+// console.log('this is some JavaScript code');
 
-function notify() {
-  alert('in here I will do something');
-}
+// function notify() {
+//   alert('in here I will do something');
+// }
 
+// console.log(getFile)
 // notify();

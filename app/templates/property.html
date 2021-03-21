@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+{% block main %}
+
+<h1 class="pt-4 font-weight-bold">Add New Property</h1>
+<div class="w-75 smallup">
+  <div class="form bg-white p-5 rounded ">
+    <form class="w-75 smallup" action="{{url_for('property')}}" method="POST" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+  
+      {{ form.title.label (class="font-weight-bold pt-3") }}
+      {{ form.title (class="form-control")}}
+  
+      {{ form.description.label (class="font-weight-bold pt-3")}}
+      {{ form.description (class="form-control")}}
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.bedroom.label (class="font-weight-bold pt-3")}}
+          {{ form.bedroom (class="form-control")}}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.bathroom.label (class="font-weight-bold pt-3")}}
+          {{ form.bathroom (class="form-control")}}
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.price.label (class="font-weight-bold pt-2")}}
+          {{ form.price (class="form-control")}}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.proptype.label (class="font-weight-bold pt-2")}}
+          {{ form.proptype (class="custom-select mr-sm-2")}}
+        </div>
+      </div>
+  
+      {{ form.location.label (class="font-weight-bold pt-2")}}
+      {{ form.location (class="form-control")}}
+  
+      {{ form.photo.label (class="font-weight-bold pt-3") }}<br>
+      {{ form.photo(class="form-control-file pb-4" )}}
+      <button class="btn btn-primary" type="submit">Add Property</button>
+    </form>
+  </div>
+  
+</div>
+
+{% endblock %}
